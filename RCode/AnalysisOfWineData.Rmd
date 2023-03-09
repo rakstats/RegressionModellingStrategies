@@ -1,0 +1,31 @@
+---
+title: "Analysis of Wine data"
+output: html_document
+date: '2023-03-09'
+---
+
+
+```{r}
+# Load required packages
+library(here)
+library(tidyverse)
+library(rms)
+library(ucidata)
+```
+
+```{r}
+# Load wine data
+data(wine)
+
+# Create response variable with a more meaningful name
+wine <- wine %>% 
+        dplyr::mutate(red_wine = factor(if_else(color == "Red", 1, 0))) %>%
+        dplyr::select(-color)
+
+# Take a glimpse at the data
+glimpse(wine)
+
+# Describe the variables -- use Hmisc::describe() 
+wine_describe <- Hmisc::describe(wine)
+html(wine_describe, size = 120, scroll = FALSE)
+```
